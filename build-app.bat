@@ -1,0 +1,1 @@
+python -m PyInstaller --onefile --noconsole --icon=.\Resources\app.ico  Md2Html.py
