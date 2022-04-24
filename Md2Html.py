@@ -1,7 +1,8 @@
 import markdown
 import os
 from os.path import exists
-#from htmldocx import HtmlToDocx
+import sys
+import getopt
 
 
 class Md:
@@ -90,13 +91,41 @@ code{
         return html
 
 
-class App:
+class Main:
 
     @staticmethod
     def help_menu():
         print("help menu")
 
     @staticmethod
-    def convert(md_file: str):
+    def convert(md_file: str, title=""):
         html_file = os.path.splitext(md_file)[0] + ".html"
         if exists(md_file):
+            file = open(html_file, mode='r')
+            md_str = file.read()
+            file.close()
+            Md.html_file(md_str, html_file, title)
+
+    # https://www.tutorialspoint.com/python/python_command_line_arguments.htm
+    @staticmethod
+    def main(argv):
+       md_file = ''
+       title = ''
+       try:
+          opts, args = getopt.getopt(argv,"hi:o:",["md=","title="])
+       except getopt.GetoptError:
+          print('ms2html --md <markdown-file> --title <html-title>')
+          sys.exit(2)
+       for opt, arg in opts:
+          if opt == '-h':
+             print('ms2html --md <markdown-file> --title <html-title>')
+             sys.exit()
+          elif opt in ("--md", "-m"):
+             md_file = arg
+          elif opt in ("-t", "--title"):
+             title = arg
+       Main.convert(md_file, title)
+
+
+if __name__ == "__main__":
+    Main.main(sys.argv[1:])
