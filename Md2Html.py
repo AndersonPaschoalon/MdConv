@@ -135,7 +135,7 @@ class Main:
         title = ''
         ret_val = False
         try:
-            opts, args = getopt.getopt(argv,"hi:o:",["md=","title="])
+            opts, args = getopt.getopt(argv,"hi:o:",["md=","title=","help"])
         except getopt.GetoptError:
             print("**Error parsing arguments.")
             traceback.print_exc()
@@ -143,7 +143,7 @@ class Main:
         for opt, arg in opts:
             if opt in ("-h", "--help"):
                 Main.help_menu()
-                sys.exit()
+                return
             elif opt in ("--md", "-m"):
                 md_file = arg
             elif opt in ("-t", "--title"):
@@ -151,6 +151,7 @@ class Main:
         if md_file != "":
             Main.convert(md_file, title)
             print("Markdown file " + md_file + " converted to HTML successfully.")
+            return
         else:
             print("** Error, empty mandatory parameter --md.")
             Main.help_menu()
