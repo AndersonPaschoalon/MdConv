@@ -1,8 +1,9 @@
 import markdown
 import os
-from os.path import exists
+import traceback
 import sys
 import getopt
+from os.path import exists
 
 
 class Md:
@@ -81,7 +82,6 @@ code{
             f.write(html)
         return True
 
-
     @staticmethod
     def html_str(md: str, title=""):
         html = Md.HTML_HEADER.replace("###THE_TITLE###", title)
@@ -93,39 +93,75 @@ code{
 
 class Main:
 
+    RET_ERROR_INVALID_ARGS = 1
+    RET_ERROR_PARSING_ARGS = 2
+    RET_ERROR_FILE_NOT_FOUND = 3
+    RET_ERROR_EXCEPTION_PROCESSING_FILES = 4
+    RET_ERROR_GENERIC = 5
+
     @staticmethod
     def help_menu():
-        print("help menu")
+        print("Converts a markdown file to html.")
+        print("")
+        print("Usage:")
+        print("\tmd2html --md <markdown-file> --title <html-title>")
+        print("")
+        print("Options:")
+        print("\t--md|-m <markdown-file>: path to markdown file")
+        print("\t--title|-t <html-title>: title to the HTML page title")
+        print("")
 
     @staticmethod
     def convert(md_file: str, title=""):
-        html_file = os.path.splitext(md_file)[0] + ".html"
-        if exists(md_file):
-            file = open(html_file, mode='r')
-            md_str = file.read()
-            file.close()
-            Md.html_file(md_str, html_file, title)
+        try:
+            html_file = os.path.splitext(md_file)[0] + ".html"
+            if exists(md_file):
+                file = open(md_file, mode='r')
+                md_str = file.read()
+                file.close()
+                Md.html_file(md_str, html_file, title)
+            else:
+                print("**Error: File <" + md_file + "> could not be found or do not exit.")
+                sys.exit(Main.RET_ERROR_FILE_NOT_FOUND)
+        except:
+            print("**Error: Exception caught while processing files.")
+            traceback.print_exc()
+            sys.exit(Main.RET_ERROR_EXCEPTION_PROCESSING_FILES)
 
     # https://www.tutorialspoint.com/python/python_command_line_arguments.htm
     @staticmethod
     def main(argv):
-       md_file = ''
-       title = ''
-       try:
-          opts, args = getopt.getopt(argv,"hi:o:",["md=","title="])
-       except getopt.GetoptError:
-          print('ms2html --md <markdown-file> --title <html-title>')
-          sys.exit(2)
-       for opt, arg in opts:
-          if opt == '-h':
-             print('ms2html --md <markdown-file> --title <html-title>')
-             sys.exit()
-          elif opt in ("--md", "-m"):
-             md_file = arg
-          elif opt in ("-t", "--title"):
-             title = arg
-       Main.convert(md_file, title)
+        md_file = ''
+        title = ''
+        ret_val = False
+        try:
+            opts, args = getopt.getopt(argv,"hi:o:",["md=","title="])
+        except getopt.GetoptError:
+            print("**Error parsing arguments.")
+            traceback.print_exc()
+            sys.exit(Main.RET_ERROR_PARSING_ARGS)
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                Main.help_menu()
+                sys.exit()
+            elif opt in ("--md", "-m"):
+                md_file = arg
+            elif opt in ("-t", "--title"):
+                title = arg
+        if md_file != "":
+            Main.convert(md_file, title)
+            print("Markdown file " + md_file + " converted to HTML successfully.")
+        else:
+            print("** Error, empty mandatory parameter --md.")
+            Main.help_menu()
+            sys.exit(Main.RET_ERROR_INVALID_ARGS)
 
 
 if __name__ == "__main__":
-    Main.main(sys.argv[1:])
+    try:
+        Main.main(sys.argv[1:])
+    except:
+        print("**Error: Exception in the application")
+        traceback.print_exc()
+        sys.exit(Main.RET_ERROR_GENERIC)
+
