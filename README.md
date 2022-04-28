@@ -15,3 +15,12 @@ Example:
 ```
 .\\Md2Html.exe --md SampleMarkdown.md --title "HTML page title"
 ```
+
+## RELEASE HISTORY
+
+2022.04.25, v0.1.0.0, First stable version
+
+
+## Changelog
+
+2022.04.27, rc-v0.1.1.0, fixes on command line, display version
