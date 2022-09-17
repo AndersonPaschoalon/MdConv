@@ -10,7 +10,7 @@ import random
 from xhtml2pdf import pisa
 from gazpacho import Soup
 from Md import Md
-from Cd import cd
+from Cd import Cd
 
 class Main:
 
@@ -169,7 +169,7 @@ Created by Anderson Paschoalon: <anderson.paschoalon@gmail.com>
             if exists(md_file):
                 docx_file = os.path.splitext(md_file)[0]
                 dir_name = os.path.dirname(md_file)
-                with cd(dir_name):
+                with Cd(dir_name) as cdir:
                     md_in = os.path.basename(md_file)
                     docx_out = os.path.basename(docx_file)
                     temp_html = Main._conv_html_temp(md_file=md_in, title="temp htmp")
@@ -196,7 +196,7 @@ Created by Anderson Paschoalon: <anderson.paschoalon@gmail.com>
                 md_in = os.path.basename(md_file)
                 dir_name = os.path.dirname(md_file)
                 pdf_out = os.path.basename(pdf_file)
-                with cd(dir_name):
+                with Cd(dir_name) as cdir:
                     md_str = ""
                     with open(md_in) as file:
                         md_str = file.read()
@@ -221,7 +221,7 @@ Created by Anderson Paschoalon: <anderson.paschoalon@gmail.com>
                 md_in = os.path.basename(md_file)
                 dir_name = os.path.dirname(md_file)
                 txt_out = os.path.basename(txt_file)
-                with cd(dir_name):
+                with Cd(dir_name) as cdir:
                     md_str = ""
                     with open(md_in) as file:
                         md_str = file.read()

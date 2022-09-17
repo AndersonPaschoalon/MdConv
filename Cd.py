@@ -1,12 +1,25 @@
-from contextlib import contextmanager
 import os
 
 
-@contextmanager
-def cd(newdir):
-    prevdir = os.getcwd()
-    os.chdir(os.path.expanduser(newdir))
-    try:
-        yield
-    finally:
-        os.chdir(prevdir)
+class Cd:
+    """Context manager for changing the current working directory"""
+
+    def __init__(self, new_path: str):
+        new_path = new_path.strip()
+        self.newPath = os.path.expanduser(new_path)
+
+    def __enter__(self):
+        self.savedPath = os.getcwd()
+        if self.newPath != "" or self.newPath != ".":
+            os.chdir(self.newPath)
+
+    def __exit__(self, etype, value, traceback):
+        os.chdir(self.savedPath)
+
+    @staticmethod
+    def pwd():
+        """
+        Returns the current working directory.
+        :return:
+        """
+        return os.getcwd()
