@@ -22,7 +22,7 @@ class Main:
     RET_INVALID_FORMAT = 6
     # rc-v: release candidate version
     # v: stable version
-    APP_VERSION = "rc-v1.0.1.0"
+    APP_VERSION = "v1.0.0.0"
     LICENSE = """
 MIT License
 

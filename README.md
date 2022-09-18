@@ -62,7 +62,7 @@ In the script `tests\run-tests.py` there is a python scripts some examples. of u
 ## Changelog
 
 2022.04.27, rc-v0.1.1.0, fixes on command line, display version
-
+2022.09.18, v1.0.0.0, support for docx, pdf, txt, new man page, automated tests added to the build, and some bugfixes
 
 
 
