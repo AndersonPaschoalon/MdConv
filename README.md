@@ -1,4 +1,6 @@
-# Md2Html
+![MdConv](./resources/markdown_here_med.png)
+# MdConv
+
 Just a simple command line app to convert Markdown files into different formats.
 * HTML
 * DOCX
