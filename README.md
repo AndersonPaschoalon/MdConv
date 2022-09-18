@@ -39,7 +39,7 @@ If you type `mdconv.exe --help` you can read its usage manual:
 
 In the script `tests\run-tests.py` there is a python scripts some examples. of usage can be found.
 
-##Development and Build
+## Development and Build
 
 * PyCharm Community was used for the development.
 * To *build* the executable file and exeute the tests, just execute `.\build-app.bat`. The binary file will be located at `.\dist\`
