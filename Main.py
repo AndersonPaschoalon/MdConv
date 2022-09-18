@@ -111,7 +111,7 @@ Created by Anderson Paschoalon: <anderson.paschoalon@gmail.com>
         text = Soup(source_html).strip(whitespace=False)  # to keep "\n" characters intact
         text = text.strip()
         text = re.sub(r'\n\n\n(\n)*', "\n\n", text, flags=re.S)
-        print(text)
+        # print(text)
         with open(output_filename, "w") as txt_file:
             txt_file.write(text)
 
